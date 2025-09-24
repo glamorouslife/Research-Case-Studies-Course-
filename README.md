@@ -72,7 +72,7 @@ pip install -r requirements.txt
    GDRIVE_CREDENTIALS_PATH="./src/credentials.json"
    ```
    
-## Keeping Your Knowledge Base Fresh (Google Drive & Local)
+## Keeping Your Knowledge Base Fresh
 
 - **Google Drive:**  
   When you add, edit, or replace documents in your linked Drive folder, re-run the ingestion (`qd_retrive_new.py`).  
