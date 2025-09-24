@@ -67,6 +67,14 @@ pip install -r requirements.txt
 4. Download the JSON file → rename it `credentials.json`.
 5. Move it to the `src` folder.
 6. Create a `.env` file inside `src` with:
+## Keeping Your Knowledge Base Fresh (Google Drive & Local)
+
+- **Google Drive:**  
+  When you add, edit, or replace documents in your linked Drive folder, re-run the ingestion (`qd_retrive_new.py`).  
+  This updates the vector index so the system uses the latest medical information.
+
+- **Tip:**  
+  Keep filenames stable so updates are treated as replacements rather than duplicates.
 
    ```bash
    GDRIVE_CREDENTIALS_PATH="./src/credentials.json"
