@@ -67,6 +67,11 @@ pip install -r requirements.txt
 4. Download the JSON file → rename it `credentials.json`.
 5. Move it to the `src` folder.
 6. Create a `.env` file inside `src` with:
+
+   ```bash
+   GDRIVE_CREDENTIALS_PATH="./src/credentials.json"
+   ```
+   
 ## Keeping Your Knowledge Base Fresh (Google Drive & Local)
 
 - **Google Drive:**  
@@ -75,12 +80,6 @@ pip install -r requirements.txt
 
 - **Tip:**  
   Keep filenames stable so updates are treated as replacements rather than duplicates.
-
-   ```bash
-   GDRIVE_CREDENTIALS_PATH="./src/credentials.json"
-   ```
-
----
 
 ### 4. Start Qdrant (Vector Database)
 
