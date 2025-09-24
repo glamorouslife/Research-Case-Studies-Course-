@@ -1,0 +1,54 @@
+[
+  {
+    "question": "What are the symptoms of breast cancer?",
+    "rag_answer": "Lump in the breast, nipple rash/inversion, red patches on the skin, dimpling of the skin, aching in the armpit, thickening or parting of the skin that is pink and flat 17 20 21 22 23 24.",
+    "llm_answer": "44.2% of respondents reported not knowing the signs and symptoms of breast cancer, 16.9% gave 2, 28.7% gave 3, 10.5% gav...",
+    "contexts": [
+      "33 \n \nSUMMARY OF MANAGEMENT OF COMMON CANCERS 15 16 \nThis section outlines the principles behind the management of common cancers. \nFor metastatic cancers, enrolment into a clinical trial is the best treatment option. \nSummaries provided below are developed using eviQ and NCCN guidelines as practica"
+    ],
+    "ground_truth": "33 \n \nSUMMARY OF MANAGEMENT OF COMMON CANCERS 15 16 \nThis section outlines the principles behind the management of common cancers. BREAST CANCER \nEarly breast cancers: \n(Includes axillary node positive disease.) \n• Mostly curative intent therapy",
+    "answer": "Lump in the breast, nipple rash/inversion, red patches on the skin, dimpling of the skin, aching in the armpit, thickening or parting of the skin that is pink and flat 17 20 21 22 23 24."
+  },
+  {
+    "question": "How does heart failure present clinically?",
+    "rag_answer": "Patients with acute heart failure usually present with shortness of breath and \nperipheral oedema. Other symptoms include fatigue, weakness, weight gain or loss, \nnausea, abdominal pain, cough, anxiety and orthopnoea (breathing difficulty in the \nsup...",
+    "llm_answer": "Heart failure manifests through one of two main clinical syndromes: (1) Acute heart failure, in which the rapid onset of...",
+    "contexts": [
+      "8 \n \nRoutine tasks: \n• Managing inpatients – routine inpatient care, ward consultations, weekend \nroster (it is the responsibility of the registrars to do this roster). \no Prior to consultant ward rounds, results should be available for imaging \nstudies, histology and blood tests. \no (For interns, a"
+    ],
+    "ground_truth": "8 \n \nRoutine tasks: \n• Managing inpatients – routine inpatient care, ward consultations, weekend \nroster (it is the responsibility of the registrars to do this roster)",
+    "answer": "Patients with acute heart failure usually present with shortness of breath and \nperipheral oedema. Other symptoms include fatigue, weakness, weight gain or loss, \nnausea, abdominal pain, cough, anxiety and orthopnoea (breathing difficulty in the \nsup..."
+  },
+  {
+    "question": "What is the treatment for breast cancer?",
+    "rag_answer": "The treatment for breast cancer will depend on the type of breast cancer. In all cases it involves a combination of surgery, radiotherapy, chemotherapy and hormone therapy. Targeted therapy with medicines called tyrosine kinase inhibitors may also be...",
+    "llm_answer": "Breast cancer treatment generally consists of surgery, radiation therapy, chemotherapy and targeted drug therapy. The sp...",
+    "contexts": [
+      "o close or positive margins \no >/=4 axillary nodes involved \no tumour size >5 cm \n• Extensive lymphovascular invasion.  \nRadiotherapy is given after the chemotherapy is completed, but can occur \nconcurrently with Herceptin in Her2 positive disease \nLocally advanced and inflammatory breast cancers \n•"
+    ],
+    "ground_truth": "o close or positive margins \no >/=4 axillary nodes involved \no tumour size >5 cm \n• Extensive lymphovascular invasion. Radiotherapy is given after the chemotherapy is completed, but can occur \nconcurrently with Herceptin in Her2 positive disease \nLocally advanced and inflammatory breast cancers \n• The cure rate is lower than with early breast cancers",
+    "answer": "The treatment for breast cancer will depend on the type of breast cancer. In all cases it involves a combination of surgery, radiotherapy, chemotherapy and hormone therapy. Targeted therapy with medicines called tyrosine kinase inhibitors may also be..."
+  },
+  {
+    "question": "How is infection managed?",
+    "rag_answer": "Infection is managed by the Infectious Diseases team for each of our high risk patients. The ID team will also provide guidance on any questions that may arise.",
+    "llm_answer": "There are several treatment options available for HBV infection. The choice of therapy depends on the stage of disease, ...",
+    "contexts": [
+      "parenteral antibiotics, targeted to the specific pathogen, until resolution of \nneutropenia.  \n• Specific pathogens need to be treated according to therapeutic guidelines \nwhile continuing broad coverage.",
+      "8 \n \nRoutine tasks: \n• Managing inpatients – routine inpatient care, ward consultations, weekend"
+    ],
+    "ground_truth": "parenteral antibiotics, targeted to the specific pathogen, until resolution of \nneutropenia",
+    "answer": "Infection is managed by the Infectious Diseases team for each of our high risk patients. The ID team will also provide guidance on any questions that may arise."
+  },
+  {
+    "question": "When is surgery indicated for appendicitis?",
+    "rag_answer": "In children, non-operative management is the preferred treatment option. The decision to proceed.",
+    "llm_answer": "Surgery is indicated in complicated appendicitis and in cases of suspicion of complications or in a perforated appendix.",
+    "contexts": [
+      "parenteral antibiotics, targeted to the specific pathogen, until resolution of \nneutropenia.  \n• Specific pathogens need to be treated according to therapeutic guidelines \nwhile continuing broad coverage.",
+      "75. Pharmacologic interventions for treatment of degluti tion alterations on \npatients with acut"
+    ],
+    "ground_truth": "parenteral antibiotics, targeted to the specific pathogen, until resolution of \nneutropenia",
+    "answer": "In children, non-operative management is the preferred treatment option. The decision to proceed."
+  }
+]

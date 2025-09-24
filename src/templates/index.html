@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediRag for Assistance</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #22d3ee;
+      --accent-2: #34d399;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial;
+      height: 100vh; display: flex; flex-direction: column;
+    }
+    header { border-bottom: 1px solid var(--border); padding: 14px 18px; display:flex; align-items:center; gap:12px; }
+    header h1 { margin: 0; font-size: 16px; }
+    header .dot { width:8px; height:8px; border-radius:999px; background: var(--accent-2); box-shadow: 0 0 0 3px rgba(52,211,153,.15); }
+
+    .wrap { flex: 1; display: grid; grid-template-columns: 320px 1fr; min-height: 0; }
+    .history { border-right: 1px solid var(--border); background: #0b1220; min-width: 260px; display:flex; flex-direction:column; }
+    .history-head { padding: 12px; display:flex; gap:8px; align-items:center; justify-content:space-between; }
+    .history-head h2 { margin:0; font-size: 14px; color: var(--muted); font-weight:600; }
+    .history-actions { display:flex; gap:8px; }
+    .btn-sm { font-size: 12px; padding: 6px 10px; border: 1px solid var(--border); background: #0a101b; color: var(--text); border-radius: 8px; cursor:pointer; }
+
+    .history-list { overflow: auto; padding: 8px; display:flex; flex-direction:column; gap:8px; }
+    .hist-item { border:1px solid var(--border); background: var(--card); border-radius: 10px; padding:10px; cursor:pointer; }
+    .hist-item:hover { border-color:#243149; }
+
+    .chat { display:flex; flex-direction:column; min-width:0; }
+    .messages { flex:1; overflow:auto; padding: 16px; display:flex; flex-direction:column; gap:12px; }
+
+    .msg { border: 1px solid var(--border); background: var(--card); padding: 14px; border-radius: 12px; max-width: 1000px; }
+    .role { font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); margin-bottom:6px; }
+    pre.code { white-space: pre-wrap; word-wrap: break-word; margin: 0; }
+    .source { margin-top: 8px; font-size: 12px; color: var(--muted); border-top:1px dashed var(--border); padding-top:8px; }
+
+    .composer { border-top: 1px solid var(--border); padding: 12px; display:flex; gap:10px; align-items:center; }
+    .composer input { flex:1; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: #0c1526; color: var(--text); outline:none; }
+    .composer button { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #00151a; font-weight: 700; cursor:pointer; }
+
+    .pill { font-size: 11px; color: #0d1b1f; background: var(--accent); font-weight:700; padding:4px 8px; border-radius:999px; }
+
+    /* Loading spinner */
+    .spinner { border: 3px solid var(--border); border-top: 3px solid var(--accent); border-radius: 50%; width: 16px; height: 16px; animation: spin 1s linear infinite; margin-left:8px; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="dot"></div>
+    <h1>MedicalRag for Assistance</h1>
+    <span class="pill" id="status">Ready</span>
+    <div id="loadingIcon" class="spinner" style="display:none;"></div>
+  </header>
+
+  <div class="wrap">
+    <aside class="history">
+      <div class="history-head">
+        <h2>Conversations</h2>
+        <div class="history-actions">
+          <button class="btn-sm" id="newChat">New</button>
+          <button class="btn-sm" id="clearAll">Clear</button>
+        </div>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </aside>
+
+    <main class="chat">
+      <div class="messages" id="messages"></div>
+      <form class="composer" id="composer">
+        <input id="query" name="query" placeholder="Ask a medical question…" autocomplete="off" />
+        <button id="send" type="submit">Ask</button>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'medical_rag_chats_v1';
+    const messagesEl = document.getElementById('messages');
+    const historyList = document.getElementById('historyList');
+    const statusPill = document.getElementById('status');
+    const composer = document.getElementById('composer');
+    const input = document.getElementById('query');
+    const loadingIcon = document.getElementById('loadingIcon');
+
+    let chats = loadChats();
+    let currentId = chats[0]?.id || createNewChat();
+    renderHistory();
+    renderChat(currentId);
+
+    function loadChats(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
+    function saveChats(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(chats)); }
+
+    function createNewChat(){ const id = 'c_' + Math.random().toString(36).slice(2); chats.unshift({ id, createdAt: Date.now(), items: [] }); saveChats(); return id; }
+    function switchChat(id){ currentId = id; renderChat(id); renderHistory(); }
+
+    function renderHistory(){ historyList.innerHTML = ''; chats.forEach(chat => { const firstQ = chat.items.find(i => i.role==='user')?.text || 'New chat'; const t = new Date(chat.createdAt).toLocaleString(); const el = document.createElement('div'); el.className = 'hist-item'; el.innerHTML = `<div class="q">${escapeHtml(firstQ)}</div><div class="t">${t}</div>`; el.onclick = () => switchChat(chat.id); if(chat.id===currentId){ el.style.borderColor = '#2dd4bf'; } historyList.appendChild(el); }); }
+    function renderChat(id){ messagesEl.innerHTML = ''; const chat = chats.find(c => c.id===id); if(!chat) return; for(const m of chat.items){ addMsgEl(m.role, m.text, m); } messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+    function addMessage(role, text, extra){ const chat = chats.find(c => c.id===currentId); chat.items.push({ role, text, ...extra }); saveChats(); addMsgEl(role, text, extra); messagesEl.scrollTop = messagesEl.scrollHeight; }
+    function addMsgEl(role, text, extra){ const wrap = document.createElement('div'); wrap.className = 'msg'; wrap.innerHTML = `<div class="role">${role}</div><pre class="code">${escapeHtml(text)}</pre>`; if(extra?.source || extra?.doc){ const s = document.createElement('div'); s.className = 'source'; s.textContent = `Source: ${extra.doc || ''}`; wrap.appendChild(s); } messagesEl.appendChild(wrap); }
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+
+    composer.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if(!q) return;
+      input.value = '';
+      addMessage('user', q);
+      setBusy(true);
+      try {
+        const fd = new FormData();
+        fd.append('query', q);
+        const res = await fetch('/get_response', { method: 'POST', body: fd });
+        const isJson = res.headers.get('content-type')?.includes('application/json');
+        if(!isJson){ const text = await res.text(); throw new Error('Expected JSON, got: ' + text.slice(0,120)); }
+        const data = await res.json();
+        addMessage('assistant', data.answer, { source: data.source_document, doc: data.doc });
+      } catch (err){ addMessage('assistant', '⚠️ Error: ' + (err?.message || err)); }
+      finally { setBusy(false); }
+    });
+
+    function setBusy(b){
+      document.getElementById('send').disabled = b;
+      statusPill.textContent = b ? 'Working…' : 'Ready';
+      loadingIcon.style.display = b ? 'inline-block' : 'none';
+    }
+
+    document.getElementById('newChat').onclick = () => { currentId = createNewChat(); renderHistory(); renderChat(currentId); };
+    document.getElementById('clearAll').onclick = () => { if(confirm('Clear all conversations?')){ chats = []; saveChats(); currentId = createNewChat(); renderHistory(); renderChat(currentId);} };
+  </script>
+</body>
+</html>
+
+
+
+
+
